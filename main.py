@@ -67,7 +67,7 @@ class URL:
           # so I strip off extra whitespace at the beginning and end.
           response_headers[header.casefold()] = value.strip()
 
-      # couple of headers are especially important because they tell us that
+      # A couple of headers are especially important because they tell us that
       # the data we’re trying to access is being sent in an unusual way.
       # Let’s make sure none of those are present.
       assert "transfer-encoding" not in response_headers
@@ -78,3 +78,27 @@ class URL:
       s.close()
 
       return content
+
+
+# DISPLAY THE HTML
+
+# Take the page HTML and print all the text, but not the tags, in it
+def show(body):
+    in_tag = False
+    for c in body:
+        if c == "<":
+            in_tag = True
+        elif c == ">":
+            in_tag = False
+        elif not in_tag:
+            print(c, end="")
+
+
+# Load the page
+def load(url):
+    body = url.request()
+    show(body)
+
+if __name__ == "__main__":
+    import sys
+    load(URL(sys.argv[1]))
