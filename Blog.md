@@ -7,3 +7,13 @@
 
 
 The scrip prints the css code because right now it only cheks if the caracter is in a tag, meaning between < and >.
+
+---
+
+## Current state of the browser 11.12.24
+* parse a URL into a scheme, host, port, and path;
+* connect to that host using the socket and ssl libraries;
+* send an HTTP request to that host, including a Host header;
+* split the HTTP response into a status line, headers, and a body;
+* print the text (and not the tags) in the body.
+
