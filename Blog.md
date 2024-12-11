@@ -4,3 +4,6 @@
 
 ### Page source:
 ![image](https://github.com/user-attachments/assets/7900ce3f-2659-4aae-be30-46f28bf96c6f)
+
+
+The scrip prints the css code because right now it only cheks if the caracter is in a tag, meaning between < and >.
