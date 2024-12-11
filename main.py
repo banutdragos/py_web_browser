@@ -25,6 +25,11 @@ class URL:
         elif self.scheme == "https":
             self.port = 443
 
+        # Custom port handling
+        if ":" in self.host:
+            self.host, port = self.host.split(":", 1)
+            self.port = int(port)
+
     # Now that the URL has the host and path fields,
     # we can download the web page at that URL. We’ll do that in a new method, request
     def request(self):
