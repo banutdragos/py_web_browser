@@ -1,4 +1,5 @@
 import socket
+import ssl
 
 
 class URL:
@@ -6,9 +7,9 @@ class URL:
     # and I’ll put the parsing code into the constructor
     def __init__(self, url):
         # Let’s start with the scheme, which is separated from the rest of the URL by ://.
-        # Our browser only supports http, so let’s check that, too
         self.scheme, url = url.split("://", 1)
-        assert self.scheme == "http"
+        assert self.scheme in ["https", "http"]
+
 
         # Now we must separate the host from the path. The host comes before the first /,
         # while the path is that slash and everything after it
@@ -19,6 +20,10 @@ class URL:
         self.host, url = url.split("/", 1)
         self.path = "/" + url
 
+        if self.scheme == "http":
+            self.port = 80
+        elif self.scheme == "https":
+            self.port = 443
 
     # Now that the URL has the host and path fields,
     # we can download the web page at that URL. We’ll do that in a new method, request
@@ -33,7 +38,12 @@ class URL:
 
       # Once you have a socket, you need to tell it to connect to the
       # other computer. For that, you need the host and a port.
-      s.connect((self.host, 80))
+      s.connect((self.host, self.port))
+
+      # Wrap socket with the ssl Library for https scheme
+      if self.scheme == "https":
+          ctx = ssl.create_default_context()
+          s = ctx.wrap_socket(s, server_hostname=self.host)
 
       # Now that we have a connection, we make a request to
       # the other server. To do so, we send it some data using the send method
